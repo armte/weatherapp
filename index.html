@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" >
+
+<head>
+  <meta charset="UTF-8">
+  <title>Local Weather - FCC 4 Final</title>
+  
+  
+  <link rel='stylesheet' href='https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/4.0.0/css/bootstrap.css'>
+
+      <link rel="stylesheet" href="css/style.css">
+
+  
+</head>
+
+<body>
+
+  <link href="https://fonts.googleapis.com/css?family=Handlee|Sacramento|The+Girl+Next+Door|Arial|Amatic+SC" rel="stylesheet">
+
+<div class="container-fluid main-page" id="main-page">
+  <!--container that holds the weather information!-->
+  <div class="container-fluid weather-box" id="weather-box">
+    <h2 class="place" id="place"></h2>
+    <h3 class="today" id="today"></h3>
+    <h3 class="currentDate" id="currentDate"></h3>
+    <h4 class="time" id="time"></h4>
+    <img class ="weather-icon" id="weather-icon" src="" alt="today's weather">
+    <!--sub-container that holds information retrieved from API !-->
+    <div class="weather-content">
+      <p id="forecast"></p>
+      <p id="temp">Temperature: 
+        <span id="celsius"></span><span class="absent" id="farenheit"></span>
+        <button class="btn btn-outline-dark" id="degreesBtn"><span class="degree">&deg;</span><span>C</span><span class="absent">F</span></button>
+      </p><!--End temp!-->
+      <p><span id="sunRise">Sunrise: </span></P>
+    <p><span id="sunSet">Sunset: </span></p>
+    <p id="wind">Wind: 
+      <span id="wind-speed-kmHr"></span><span class="absent" id="wind-speed-miHr"></span>
+      <button class="btn btn-outline-dark btn-sm" id="windBtn"><span>km/hr</span><span class="absent">miles/hr</span></button>
+    </p><!--End wind !-->
+    </div><!--End weather content!-->
+  </div><!--End weather-box!--> 
+</div><!--End main page!-->
+  <script src='https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js'></script>
+
+  
+
+    <script  src="js/index.js"></script>
+
+
+
+
+</body>
+
+</html>
