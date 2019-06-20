@@ -1,69 +1,25 @@
-/*Initializes responsive variables*/
-:root {
-  --page-font: 1.4em;
-  --button-font: 1em;
-  --degree-font: 0.8em;
-  --button-height: 1.3em;
-  --box-width: 40%;
-  --h2-font: 1.6em;
-  --h3-font: 1.5em;
-  --h4-font: 1.4em;
-  --icon-size: 30%;
-}
-@media (max-width: 1100px) {
-  :root 
-  {
-  --icon-size: 35%;
-  --box-width: 50%;
-  }
-}
-@media (max-width: 800px) {
-  :root {
-  --page-font: 1.2em;
-  --button-font: 1.1em;
-  --degree-font: 1.1em;
-  --button-height: 1.8em;
-  --box-width: 60%;
-  --h2-font: 2em;
-  --h3-font: 1.6em;
-  --h4-font: 1.4em;
-  --icon-size: 50%;
-  }
-}
-/*Determines element sizing for screens less than 400px*/
-@media (max-width: 500px) {
-  :root {
-    --page-font: 16px;
-    --button-font: 15px;
-    --degree-font: 12px;
-    --button-height: 20px;
-    --box-width: 80%;
-    --h2-font: 25px;
-    --h3-font: 21px;
-    --h4-font: 19px;
-    --icon-size: 70%;
-  }
-}
+
 body
 {
-  overflow: hidden;
+  overflow: auto;
 }
 
 /*Sets the basic style for the weather information*/
 .main-page {
   width: 100%;
+  height: 100vh;
   font-family: 'The Girl Next Door';
   font-weight: bold;
-  font-size: var(--page-font);
+  font-size: 14px;
   letter-spacing: 1.5px;
   display: flex;
   direction: column;
   align-items: center;
-  padding: 10px;
+  overflow: auto;
 }
 /*Styling and layout for the div containing weather information inside the main section*/
 .weather-box {
-  width: var(--box-width);
+  width: 80%;
   border-style: solid;
   border-color: 'black';
   border-width: 10px;
@@ -72,21 +28,22 @@ body
   background: rgba(255, 255, 255, 0.4);
   text-align: center;
   padding-top: 20px;
-  margin-top:1%;
-  margin-bottom:2%;
+  /*margin-top:2%;
+  margin-bottom:2%;*/
+
  }
 
 h2, h3, h4 {
   font-weight: bold;
 }
 h2 {
-  font-size: var(--h2-font);
+  font-size: 25px;
 }
 h3{
-  font-size: var(--h3-font);
+  font-size: 21px;
 }
 h4{
-  font-size: var(--h4-font);
+  font-size: 19px;
 }
 .today {
   text-align: center;
@@ -94,9 +51,9 @@ h4{
 }
 /*Sets the styling and animation for the weather graphic*/
 .weather-icon {
-  width: var(--icon-size);
+  width: 70%;
   position: relative;
-  bottom: 20px;
+  /*bottom: 20px;*/
   animation-name: pulsate;
   animation-duration: 3s;
   animation-iteration-count: infinite;
@@ -105,15 +62,14 @@ h4{
 /*Causes the weather graphic to shrink and grow to give it a pulsating animation*/
 @keyframes pulsate {
   50% {
-    transform: scale(0.94);
+    transform: scale(0.92);
   }
 }
 /*styling and positioning of weather information following the weather graphic*/
 .weather-content {
   position: relative;
-  bottom: 20px;
+  /*bottom: 20px;*/
   width: 100%;
-  /*height: 100%;*/
   text-align: center;
 }
 /*class used in js to toggle between units*/
@@ -129,13 +85,77 @@ h4{
 .weather-content button {
   text-align: center;
   padding: 0 8px;
-  height: var(--button-height);
-  font-size: var(--button-font);
+  height: 20px;
+  font-size: 14px;
   margin-left: 2px;
   border-width: 2px !important;
   font-weight: bold;
 }
 .degree {
   font-family: "Arial";
-  font-size: var(--degree-font);
+  font-size: 12px;
 }
+
+@media only screen and (min-width:375px) {
+
+  .main-page {
+    font-size: 15px;
+  }
+
+  .weather-content button {
+    font-size: 15px;
+  }
+
+
+}
+
+@media only screen and (min-width:430px) {
+
+    .weather-icon {
+      width: 45%;
+    }
+
+    .main-page {
+      font-size: 18px;
+    }
+
+  .weather-content button {
+    font-size: 18px;
+    height: 24px;
+  }
+
+}
+
+@media only screen and (min-width:770px) {
+
+  h2 {
+  font-size: 30px;
+  }
+  h3{
+    font-size: 26px;
+  }
+  h4{
+    font-size: 24px;
+  }
+
+  .weather-box {
+    width: 50%;
+  }
+  .weather-icon {
+      width: 35%;
+    }
+
+    .main-page {
+      font-size: 22px;
+    }
+
+  .weather-content button {
+    font-size: 22px;
+    height: 28px;
+  }
+  .degree {
+    font-family: "Arial";
+    font-size: 18px;
+  }
+}
+

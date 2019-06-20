@@ -133,8 +133,13 @@ $(document).ready(function() {
       lat = position.coords.latitude;
       long = position.coords.longitude;
       requestLocalWeather(lat, long);
+
       //getLocalWeather(lat, long);
-/*code to toggle between farenheit and celsius*/
+
+    });//end getCurrentPosition
+  }//end if
+
+  /*code to toggle between farenheit and celsius*/
       $("#degreesBtn").on("click", function (){
         $("#temp span").each(function() {
           if(!$(this).hasClass("degree")){
@@ -158,9 +163,8 @@ $(document).ready(function() {
           }
         });//end each function
       });//end onClick function
-    })//end getCurrentPosition
-  }//end if
-})//end of ready function
+      
+});//end of ready function
 
 /*function that receives location coordinates and retrieves current weather of specificed location. If the AJAX request is successful
 * the weather information is parsed as a JSON object and passed to a function that displays the weather on the webpage */
