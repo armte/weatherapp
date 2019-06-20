@@ -127,12 +127,13 @@ function autoResizeDiv()
 $(document).ready(function() {
   
    autoResizeDiv();
-  
+  /*get the latitude and longitude of the client's location*/
   if(navigator.geolocation){
     navigator.geolocation.getCurrentPosition(function(position) {
       lat = position.coords.latitude;
       long = position.coords.longitude;
-      getLocalWeather(lat, long);
+      requestLocalWeather(lat, long);
+      //getLocalWeather(lat, long);
 /*code to toggle between farenheit and celsius*/
       $("#degreesBtn").on("click", function (){
         $("#temp span").each(function() {
@@ -161,41 +162,57 @@ $(document).ready(function() {
   }//end if
 })//end of ready function
 
-/*function that receives location coordinates and retrieves current weather of specificed location. Then populates the html elements with weather information*/
-function getLocalWeather(lat, long) {
-  $.ajax({
-    url: 'https://fcc-weather-api.glitch.me/api/current?lat='+lat+'&lon='+long,
-    success: function(data) {
-      $("#place").append(data.name);
-      $("#today").append(days[currentTime.getDay()]);
-      $("#currentDate").append(months[currentTime.getMonth()] + " " + currentTime.getDate() + ", " + currentTime.getFullYear());
-      $("#time").append(convertSunRiseSet(currentTime.getTime()/1000));
-      $("#celsius").append((data.main.temp).toFixed(1));
-      $("#farenheit").append(toFarenheit(data.main.temp).toFixed(1));
-      $("#sunRise").append(convertSunRiseSet(data.sys.sunrise));
-      $("#sunSet").append(convertSunRiseSet(data.sys.sunset));
-      $("#wind-speed-kmHr").append(data.wind.speed.toFixed(1));
-      $("#wind-speed-miHr").append(((data.wind.speed)/1.6).toFixed(1));
-      $("#wind").append(" , " + getWindDirection(data.wind.deg));
-      var weatherIndex = iconArray.map(function(x) {return x.id;}).indexOf(data.weather[0].id);
-/*if statement that checks whether it is day time or night time for user and applies styling and graphics based on the time.*/
-      if(dayTime(data.sys.sunrise, data.sys.sunset)){
-        $("#forecast").append("Today's Weather: " + data.weather[0].description);
-        $("#weather-icon").attr('src', iconArray[weatherIndex].day);
-        $("#main-page").css('background-color', iconArray[weatherIndex].dayColor);
-      }
-      else {
-        $("#forecast").append("Tonight's Weather: " + data.weather[0].description);
-        $("#weather-icon").attr('src', iconArray[weatherIndex].night);
-        $("#main-page").css('background-color', 'black');
-        $("#weather-box").css({'border-color': nightFontColor, 'color': nightFontColor});
-        $("button").removeClass('btn-outline-dark').addClass('btn-outline-light');
-        $("button").css({'border-color': nightFontColor, 'color': nightFontColor});
-      }//end else
-    }//end success function
-  })//end ajax
-}//end getLocalWeather function
+/*function that receives location coordinates and retrieves current weather of specificed location. If the AJAX request is successful
+* the weather information is parsed as a JSON object and passed to a function that displays the weather on the webpage */
+function requestLocalWeather(lat, long) {
+  var req = new XMLHttpRequest();
+  req.open('GET', 'https://fcc-weather-api.glitch.me/api/current?lat='+lat+'&lon='+long, true);
+  req.addEventListener('load', function(){
+    if(req.status >= 200 && req.status < 400) {
+      var received = req.responseText;
+      console.log(received);
+      var weatherObj = JSON.parse(received);
+      console.log(weatherObj);
+      displayLocalWeather(weatherObj);
+    }
+    else {
+      console.log(req.responseText);
+    }
+  });
 
+  req.send(null);
+
+}
+
+function displayLocalWeather(data) {
+  $("#place").append(data.name);
+  $("#today").append(days[currentTime.getDay()]);
+  $("#currentDate").append(months[currentTime.getMonth()] + " " + currentTime.getDate() + ", " + currentTime.getFullYear());
+  $("#time").append(convertSunRiseSet(currentTime.getTime()/1000));
+  $("#celsius").append((data.main.temp).toFixed(1));
+  $("#farenheit").append(toFarenheit(data.main.temp).toFixed(1));
+  $("#sunRise").append(convertSunRiseSet(data.sys.sunrise));
+  $("#sunSet").append(convertSunRiseSet(data.sys.sunset));
+  $("#wind-speed-kmHr").append(data.wind.speed.toFixed(1));
+  $("#wind-speed-miHr").append(((data.wind.speed)/1.6).toFixed(1));
+  $("#wind").append(" , " + getWindDirection(data.wind.deg));
+  var weatherIndex = iconArray.map(function(x) {return x.id;}).indexOf(data.weather[0].id);
+/*if statement that checks whether it is day time or night time for user and applies styling and graphics based on the time.*/
+  if(dayTime(data.sys.sunrise, data.sys.sunset)){
+    $("#forecast").append("Today's Weather: " + data.weather[0].description);
+    $("#weather-icon").attr('src', iconArray[weatherIndex].day);
+    $("#main-page").css('background-color', iconArray[weatherIndex].dayColor);
+  }
+  else {
+    $("#forecast").append("Tonight's Weather: " + data.weather[0].description);
+    $("#weather-icon").attr('src', iconArray[weatherIndex].night);
+    $("#main-page").css('background-color', 'black');
+    $("#weather-box").css({'border-color': nightFontColor, 'color': nightFontColor});
+    $("button").removeClass('btn-outline-dark').addClass('btn-outline-light');
+    $("button").css({'border-color': nightFontColor, 'color': nightFontColor});
+  }//end else
+
+}
 /*function that translates the wind direction from degrees to compass direction*/
 function getWindDirection(degrees) {
   if(degrees > 22.5 && degrees <= 67.5){
